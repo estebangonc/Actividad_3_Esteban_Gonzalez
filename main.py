@@ -1,4 +1,5 @@
 import os
+import time
 from urllib.parse import quote_plus
  
 from dotenv import load_dotenv
@@ -34,6 +35,8 @@ def generar_persona():
  
  
 def main():
+    inicio = time.time()
+
     servidor = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}"
  
     # 1. Crear la base de datos si no existe
@@ -75,6 +78,9 @@ def main():
     with engine.connect() as conn:
         total = conn.execute(text(f"SELECT COUNT(*) FROM `{TABLA}`")).scalar()
     print(f"Registros en {TABLA}: {total:,}")
+
+    tiempo_total = time.time() - inicio  
+    print(f"Tiempo total de ejecucion: {tiempo_total:.2f} segundos")  
  
  
 if __name__ == "__main__":
